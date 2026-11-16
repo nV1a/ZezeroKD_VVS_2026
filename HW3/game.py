@@ -130,7 +130,7 @@ class Game:
         print('Координаты:', self.x, self.y)
         print('Здоровье:', self.hp)
         if room.locked:
-            print('Сундук заперт.')
+            print('Сундук заперт')
         elif room.items:
             print('Предметы в комнате:')
             for i, item in enumerate(room.items):
@@ -163,7 +163,7 @@ class Game:
         elif direction == 'd':
             new_y += 1
         else:
-            print('Неизвестное направление.')
+            print('Неизвестное направление')
             return
         if new_x < 0 or new_x >= self.size or new_y < 0 or new_y >= self.size:
             print('Нельзя выйти за границу лабиринта!')
@@ -173,17 +173,17 @@ class Game:
             names = [item.name for item in self.loot]
             weapon = self.find_weapon()
             if 'amulet' in names:
-                print('Амулет защищает вас от монстра.')
+                print('Амулет защищает вас от монстра')
             elif weapon is None:
                 if room.hit:
-                    print('Монстр не пускает. Нужен нож или амулет из сундука.')
+                    print('Монстр не пускает. Нужен нож или амулет из сундука')
                 else:
                     room.hit = True
                     damage = random.randint(15, 25)
                     self.hp -= damage
                     print('Монстр бьёт вас! Урон:', damage)
                     print('Здоровье:', self.hp)
-                    print('Без ножа или амулета сюда не пройти.')
+                    print('Без ножа или амулета сюда не пройти')
                 return
             else:
                 self.fight_monster(room, weapon)
@@ -212,7 +212,7 @@ class Game:
         elif room.room_type == 'chest':
             self.open_chest(room)
         elif room.room_type == 'key':
-            print('Здесь лежит ключ. Нажмите T, чтобы взять его.')
+            print('Здесь лежит ключ. Нажмите T, чтобы взять его')
         elif room.room_type == 'en':
             self.enchant_weapon()
         elif room.room_type == 'finish':
@@ -225,15 +225,15 @@ class Game:
         if room.locked:
             key = self.find_key(self.x, self.y)
             if key is None:
-                print('Сундук заперт. Нужен ключ именно от этого сундука.')
+                print('Сундук заперт. Нужен ключ именно от этого сундука')
                 return
             self.loot.remove(key)
             room.locked = False
             print('Вы открыли сундук ключом.')
         if room.items:
-            print('В сундуке лежат предметы. Нажмите T, чтобы взять предмет, или G, чтобы взять всё.')
+            print('В сундуке лежат предметы. Нажмите T, чтобы взять предмет, или G, чтобы взять всё')
         else:
-            print('Сундук пуст.')
+            print('Сундук пуст')
 
     def room_is_closed(self, room):
         if room.room_type == 'chest' and room.locked:
@@ -244,11 +244,11 @@ class Game:
     def ask_number(self, size):
         answer = input('Введите номер предмета: ')
         if not answer.isdigit():
-            print('Нужно ввести номер.')
+            print('Нужно ввести номер')
             return None
         number = int(answer)
         if number >= size:
-            print('Такого номера нет.')
+            print('Такого номера нет')
             return None
         return number
 
@@ -257,7 +257,7 @@ class Game:
         if self.room_is_closed(room):
             return
         if not room.items:
-            print('В комнате нет предметов.')
+            print('В комнате нет предметов')
             return
         print('Предметы в комнате:')
         for i, item in enumerate(room.items):
@@ -287,7 +287,7 @@ class Game:
                 room = self.lab[x][y]
                 if (x, y) != (self.x, self.y) and not room.monster_hp and room.room_type != 'portal':
                     free.append((x, y))
-        print('Портал переносит вас в случайную комнату.')
+        print('Портал переносит вас в случайную комнату')
         self.x, self.y = random.choice(free)
         self.enter_room()
 
@@ -309,15 +309,15 @@ class Game:
     def enchant_weapon(self):
         weapons = [item for item in self.loot if item.item_type == 'weapon' and not item.en]
         if not weapons:
-            print('Здесь зачаровывают ножи, но у вас нет незачарованного ножа.')
+            print('Здесь зачаровывают ножи, но у вас нет незачарованного ножа')
             return
-        print('Можно зачаровать нож.')
+        print('Можно зачаровать нож')
         answer = input('Зачаровать? (y/n): ').lower()
         if answer == 'y':
             weapon = weapons[0]
             weapon.en = True
             weapon.power = 3
-            print('Нож зачарован! Теперь для победы нужно 3 удара, и монстр не бьёт в ответ.')
+            print('Нож зачарован! Теперь для победы нужно 3 удара, и монстр не бьёт в ответ')
 
     def try_exit(self):
         names = [item.name for item in self.loot]
@@ -329,16 +329,16 @@ class Game:
             print('Выход заперт. Найдите exit_key.')
 
     def show_inventory(self):
-        print('\n===== ИНВЕНТАРЬ =====')
+        print('\nИНВЕНТАРЬ')
         if not self.loot:
-            print('Инвентарь пуст.')
+            print('Инвентарь пуст')
             return
         for i, item in enumerate(self.loot):
             print(i, '-', item)
 
     def use_item(self):
         if not self.loot:
-            print('Инвентарь пуст.')
+            print('Инвентарь пуст')
             return
         self.show_inventory()
         number = self.ask_number(len(self.loot))
@@ -360,11 +360,11 @@ class Game:
             print('Подсказка: выход находится в комнате', self.exit_pos[0], self.exit_pos[1])
             print('Для него нужен exit_key из сундука. Выход отмечен на карте буквой E.')
         else:
-            print('Этот предмет сейчас использовать нельзя.')
+            print('Этот предмет сейчас использовать нельзя')
 
     def drop_item(self):
         if not self.loot:
-            print('Инвентарь пуст.')
+            print('Инвентарь пуст')
             return
         self.show_inventory()
         number = self.ask_number(len(self.loot))
@@ -376,36 +376,36 @@ class Game:
 
     def sort_inventory(self):
         self.loot.sort(key=lambda item: item.name)
-        print('Инвентарь отсортирован.')
+        print('Инвентарь отсортирован')
 
     def reverse_inventory(self):
         self.loot.reverse()
-        print('Порядок предметов изменён на обратный.')
+        print('Порядок предметов изменён на обратный')
 
     def search_inventory(self):
         if not self.loot:
-            print('Инвентарь пуст.')
+            print('Инвентарь пуст')
             return
         name = input('Введите название предмета: ')
         names = [item.name for item in self.loot]
         if name in names:
             print('Предмет найден. Номер:', names.index(name))
         else:
-            print('Такого предмета нет.')
+            print('Такого предмета нет')
 
     def copy_inventory(self):
         if not self.loot:
-            print('Инвентарь пуст.')
+            print('Инвентарь пуст')
             return
         copied_inventory = self.loot.copy()
-        print('Копия инвентаря создана, оригинал не изменится.')
+        print('Копия инвентаря создана, оригинал не изменится')
         first_part = copied_inventory[:len(copied_inventory) // 2]
         print('Первая половина копии:')
         for item in first_part:
             print('-', item)
 
     def show_map(self):
-        print('\n========== КАРТА ==========')
+        print('\nКАРТА ')
         for x in range(self.size):
             for y in range(self.size):
                 room = self.lab[x][y]
@@ -466,12 +466,12 @@ class Game:
             elif command == 'm':
                 self.show_map()
             elif command == 'q':
-                print('Вы вышли из игры.')
+                print('Вы вышли из игры')
                 self.running = False
             else:
-                print('Неизвестная команда.')
+                print('Неизвестная команда')
         if self.hp <= 0:
-            print('\nВы проиграли: здоровье закончилось.')
+            print('\nВы проиграли: здоровье закончилось')
 
 
 print('Добро пожаловать в ЛАБИРИНТ!')
@@ -480,8 +480,8 @@ while True:
         size = int(input('Введите размер лабиринта N (минимум 3): '))
         if size >= 3:
             break
-        print('Размер должен быть не меньше 3.')
+        print('Размер должен быть не меньше 3')
     except ValueError:
-        print('Введите целое число.')
+        print('Введите целое число')
 game = Game(size)
 game.play()
